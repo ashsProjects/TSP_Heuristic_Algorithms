@@ -1,5 +1,5 @@
 # Heuristic Algorithms for Approximating the Traveling Salesman Problem
-Start here
+This program will approximate the Traveling salesman problem using 3 three different algorithms (Nearest Neighbot, 2Opt, and 3Opt). There are size different combinations and explanations for these can be found in the sections below. The program allows you to run each algorithm individually or run a benchmark for all 6 and the original unoptimized list. The results are formatted in a table and displayed in the console. As the algorithms have different time complexities, the time it takes increases for some algorithms drastically, so use caution when using many places. 
 
 ## What are some TSP heuristic algorithms?
 The Traveling Salesman Problem finds the shortest path to tour a group of destinations. This is the same as finding the shortest Hamiltonian cycle in a graph that has O(n!) complexity. This is not feasible for large values of n. For example, a tour with 99 destinations has around 9e+155 or 2^519 possible solutions if you explore the entire solution space to find the optimal solution. In this class, we will solve much larger problems.
