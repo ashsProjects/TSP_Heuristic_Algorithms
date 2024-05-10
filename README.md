@@ -67,8 +67,8 @@ The 2-opt or 3-opt algorithms can often improve the greedy solution created by t
 3optReversals(route, i, j, k) { ... } // returns a number in range 0..7
 ```
 
-Shows the possible reversals for 2opt and 3opt:
-<img src='./2-3Opt.png'>
+Shows the possible reversals for 2opt and 3opt:  
+<img src='./2-3Opt.png' width='50%'>
 
 ## Possible Algorithms
 1) **Nearest Neighbor with only 1 starting point**: $O(n^{2})$ complexity 
