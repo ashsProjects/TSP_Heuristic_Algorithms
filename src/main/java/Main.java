@@ -14,53 +14,28 @@ public class Main {
 
         while (true) {
             places.clear();
-            System.out.print("\nChoose how you want to read in places: \n"
-                + "-Enter 1 to read a list of places with coordinates\n"
-                + "-Enter 2 to read in an adjacency matrix with nodes and edges\n"
-                + "-Enter q to quit the program\n"
+            System.out.print("**********************************************\n"
+                +"TSP Heuristic Algorithms Menu\n"
+                + "\tEnter 1 to run from existing file\n"
+                + "\tEnter 2 to generate a new file then run\n"
+                + "\tEnter q to quit\n"
                 + ">>> ");
-            String readChoice = scan.nextLine();
+            String generateChoice = scan.nextLine();
 
-            if (readChoice.equals("1")) {
-                System.out.print("Enter 1 to run from existing file\n"+ "Enter 2 to generate a new file then run\n"+ ">>> ");
-                String generateChoice = scan.nextLine();
-
-                if (generateChoice.equals("2")) generatePlaces(scan);
-                else if (generateChoice.equals("1")) runPlaces(scan, null);
-                else {
-                    System.out.println("Invalid option!");
-                    continue;
-                }
-            } else if (readChoice.equals("2")) {
-                System.out.print("Enter 1 to run from existing file\n"+ "Enter 2 to generate a new file then run\n"+ ">>> ");
-                String generateChoice = scan.nextLine();
-
-                if (generateChoice.equals("2")) generateNodes(scan);
-                else if (generateChoice.equals("1")) runNodes(scan, null);
-                else {
-                    System.out.println("Invalid option!");
-                    continue;
-                }
-            } else if (readChoice.equals("q")) {
-                System.out.println("Exiting!");
+            
+            if (generateChoice.equals("1")) runPlaces(scan, null);
+            else if (generateChoice.equals("2")) generatePlaces(scan);
+            else if (generateChoice.equals("q")) {
+                System.out.println("Exiting");
                 break;
-            } else {
-                System.out.println("Invalid option! Please enter 1, 2, or q");
+            }
+            else {
+                System.out.println("Invalid option!");
                 continue;
             }
         }
 
         scan.close();
-    }
-
-    private static void runNodes(Scanner scan, String fileName) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'runNodes'");
-    }
-
-    private static void generateNodes(Scanner scan) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'generateNodes'");
     }
 
     private static void runPlaces(Scanner scan, String fileName) {
@@ -73,6 +48,7 @@ public class Main {
             int i = 1;
             while (fileScan.hasNextLine()) {
                 String[] data = fileScan.nextLine().split(",");
+                if (data[0].startsWith("//")) continue;
 
                 Place place = null;
                 if (data.length == 2) place = new Place(data[0].trim(), data[1].trim());
@@ -84,16 +60,16 @@ public class Main {
             }
             approximate(scan);
         } catch (FileNotFoundException fe) {
-            System.out.println("File not found. Exiting!");
+            System.out.println("+File not found. Exiting!");
             System.exit(1);
         } catch (NumberFormatException nfe) {
-            System.out.println("Invalid lat/lon found in file! Make sure the lat and lon are valid numbers");
+            System.out.println("+Invalid lat/lon found in file! Make sure the lat and lon are valid numbers");
             System.exit(1);
         } catch (ArrayIndexOutOfBoundsException ae) {
-            System.out.println("Invalid input found in file! Make sure the entries are in the format 'lat, lon'");
+            System.out.println("+Invalid input found in file! Make sure the entries are in the format 'lat, lon'");
             System.exit(1);
         } catch (Exception e) {
-            System.out.println("Coordinates out of bounds on line " + e.getMessage());
+            System.out.println("+Coordinates out of bounds on line " + e.getMessage());
         }
     }
 
@@ -107,7 +83,7 @@ public class Main {
                 numPlaces = Integer.parseInt(scan.nextLine().trim());
                 break;
             } catch (NumberFormatException nfe) {
-                System.out.println("Invalid input! Please enter a valid number");
+                System.out.println("+Invalid input! Please enter a valid number");
                 continue;
             }
         }
@@ -116,20 +92,21 @@ public class Main {
             System.out.print("Enter the seed to use or press enter for none\n>>> ");
             randSeed = Long.parseLong(scan.nextLine().trim());
         } catch (NumberFormatException nfe) {
-            System.out.println("Using no random seed");
+            System.out.println("+Using no random seed");
         }
 
         try {
             System.out.print("Enter the radius to use for the calculation or press enter for default of 3959\n>>> ");
             radius = Double.parseDouble(scan.nextLine().trim());
         } catch (NumberFormatException nfe) {
-            System.out.println("Using default earth radius in miles");
+            System.out.println("+Using default earth radius in miles");
         }
 
         Random rand = randSeed == -1 ? new Random(randSeed) : new Random();
 
         String s = "";
         try (FileWriter writer = new FileWriter(new File("places.txt"), false)) {
+            writer.write("//placeName, latitude, longitude\n");
             for (int i = 1; i <= numPlaces; i++) {
                 double lat = rand.nextInt(-90, 90) + rand.nextDouble();
                 double lon = rand.nextInt(-180, 180) + rand.nextDouble();
@@ -137,11 +114,11 @@ public class Main {
             }
             writer.write(s);
         } catch (IOException ioe) {
-            System.out.println("There was an error when creating the file! Exiting");
+            System.out.println("+There was an error when creating the file! Exiting");
             System.exit(1);
         }
 
-        System.out.println("Successfully created input file with " + numPlaces + " places!");
+        System.out.println("+Successfully created input file with " + numPlaces + " places!");
         runPlaces(scan, "places.txt");
     }
 
@@ -156,7 +133,7 @@ public class Main {
         OptimizerFactory factory = OptimizerFactory.getInstance();
         TourConstructor tourConstructor;
 
-        System.out.print("Which algorithm do you want to use?\n"
+        System.out.print("Which algorithm do you want to use? (Use caution with large num places)\n"
             + "\t0 for the original optimized list\n"
             + "\t1 for Nearest Neighbor with only the starting point\n"
             + "\t2 for Nearest Neighbor with only all starting points\n"
@@ -204,7 +181,7 @@ public class Main {
                 case "q":
                     return;
                 default:
-                    System.out.println("Invalid option! Try again");
+                    System.out.println("+Invalid option! Try again");
                     break;
             }
         }
@@ -228,7 +205,7 @@ public class Main {
             double distance = vincenty.between(from, to, radius);
 
             StringBuilder sb = new StringBuilder();
-            sb.append("Distance from (" + from.toString() + ") to (" + to.toString() + ")");
+            sb.append(String.format("(%s)----%.2f---->(%s)%n", from.toString(),distance, to.toString()));
 
             distances.put(sb.toString(), distance);
         }
@@ -236,14 +213,13 @@ public class Main {
         if (writeToFile) {
             try (FileWriter writer = new FileWriter(new File("output.txt"), false)) {
                 writer.write(distances.toString());
+                writer.write(String.format("\nUsing: %s, all starting locations: %s, with nearest-neighbor: %s", tourConstructor.toString(), allStarts, yesNN));
             } catch (IOException ioe) {
-                System.out.println("There was an error when writing the output! Exiting");
+                System.out.println("+There was an error when writing the output! Exiting");
                 System.exit(1);
             }
 
-            System.out.println("Time elapsed: " + totalTime + "s");
-            System.out.println("Total distance: " + String.format("%.3f", distances.total()));
-            System.out.println("List of places written to ./output.txt");
+            printTable(totalTime + "s", String.format("%,.2f", distances.total()));
         }
 
         return String.format("%.4fs:%,.2f", totalTime, distances.total());
@@ -277,22 +253,37 @@ public class Main {
         printTable(data);
     }
 
-    public static void printTable(String[][] array) {
-        System.out.printf("+----------------------------------------------------------+%n");
-        System.out.printf("|                      Benchmark Results                   |%n");
-        System.out.printf("+----------------------------------------------------------+%n");
+    private static void printTable(String time, String distance) {
+        String results = "";
+        results += String.format("+----------------------------------------+%n");
+        results += String.format("|                 Results                |%n");
+        results += String.format("+----------------------------------------+%n");
+        results += String.format("| %-15s | %-20s |%n", "Num Places", places.size());
+        results += String.format("| %-15s | %-20s |%n", "Time", time);
+        results += String.format("| %-15s | %-20s |%n", "Total Distance", distance);
+        results += String.format("+----------------------------------------+%n");
+        results += String.format("| List of places written to /outputs.txt |%n");
+        results += String.format("+----------------------------------------+%n");
 
-        System.out.printf("| %-15s | %-15s | %-20s |%n", "Algorithm", "Time", "Total Distance");
-        System.out.printf("+----------------------------------------------------------+%n");
+        System.out.println(results);
+    }
 
-        System.out.printf("| %-15s | %-15s | %-20s |%n", array[0][0], array[0][1],  array[0][2]);
-        System.out.printf("| %-15s | %-15s | %-20s |%n", array[1][0], array[1][1],  array[1][2]);
-        System.out.printf("| %-15s | %-15s | %-20s |%n", array[2][0], array[2][1],  array[2][2]);
-        System.out.printf("| %-15s | %-15s | %-20s |%n", array[3][0], array[3][1],  array[3][2]);
-        System.out.printf("| %-15s | %-15s | %-20s |%n", array[4][0], array[4][1],  array[4][2]);
-        System.out.printf("| %-15s | %-15s | %-20s |%n", array[5][0], array[5][1],  array[5][2]);
-        System.out.printf("| %-15s | %-15s | %-20s |%n", array[6][0], array[6][1],  array[6][2]);
-        System.out.printf("+----------------------------------------------------------+%n");
+    private static void printTable(String[][] array) {
+        String results = "";
+        results += String.format("+----------------------------------------------------------+%n");
+        results += String.format("|                      Benchmark Results                   |%n");
+        results += String.format("+----------------------------------------------------------+%n");
+        results += String.format("| %-15s | %-15s | %-20s |%n", "Algorithm", "Time", "Total Distance");
+        results += String.format("+----------------------------------------------------------+%n");
+        results += String.format("| %-15s | %-15s | %-20s |%n", array[0][0], array[0][1], array[0][2]);
+        results += String.format("| %-15s | %-15s | %-20s |%n", array[1][0], array[1][1], array[1][2]);
+        results += String.format("| %-15s | %-15s | %-20s |%n", array[2][0], array[2][1], array[2][2]);
+        results += String.format("| %-15s | %-15s | %-20s |%n", array[3][0], array[3][1], array[3][2]);
+        results += String.format("| %-15s | %-15s | %-20s |%n", array[4][0], array[4][1], array[4][2]);
+        results += String.format("| %-15s | %-15s | %-20s |%n", array[5][0], array[5][1], array[5][2]);
+        results += String.format("| %-15s | %-15s | %-20s |%n", array[6][0], array[6][1], array[6][2]);
+        results += String.format("+----------------------------------------------------------+%n");
 
+        System.out.println(results);
     }
 }

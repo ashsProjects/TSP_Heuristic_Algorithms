@@ -1,4 +1,3 @@
-
 import java.util.Arrays;
 
 public class ThreeOpt extends TourConstructor {
@@ -84,5 +83,10 @@ public class ThreeOpt extends TourConstructor {
             route[j] = temp;
             i++; j--;
         }
+    }
+
+    @Override
+    public String toString() {
+        return "3Opt";
     }
 }

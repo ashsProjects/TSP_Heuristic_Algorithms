@@ -47,4 +47,9 @@ public class TwoOpt extends TourConstructor {
             i++; j--;
         }
     }
+
+    @Override
+    public String toString() {
+        return "2Opt";
+    }
 }

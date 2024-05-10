@@ -1,4 +1,3 @@
-import java.util.Map;
 import java.util.LinkedHashMap;
 
 public class Distances extends LinkedHashMap<String, Double> {  
@@ -17,10 +16,10 @@ public class Distances extends LinkedHashMap<String, Double> {
     public String toString() {
         StringBuilder sb = new StringBuilder();
 
-        for (Map.Entry<String, Double> entry: this.entrySet()) {
-            sb.append(entry.getKey() + ": " + String.format("%.2f", entry.getValue()) + "\n");
+        for (String key: this.keySet()) {
+            sb.append(key);
         }
-        sb.append("__________________________________________________________________________\n");
+        sb.append("_______________________________________________________________\n");
         sb.append("Total distance: " + String.format("%.2f", total()));
 
         return sb.toString();

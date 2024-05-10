@@ -1,3 +1,6 @@
 public class NN extends TourConstructor {
-    //empty class that extends from TourConstruction for the construct method
+    @Override
+    public String toString() {
+        return "Nearest Neighbor";
+    }
 }
