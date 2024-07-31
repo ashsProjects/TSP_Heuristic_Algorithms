@@ -2,7 +2,7 @@
 This program will approximate the Traveling salesman problem using 3 three different algorithms (Nearest Neighbot, 2Opt, and 3Opt). There are size different combinations and explanations for these can be found in the sections below. The program allows you to run each algorithm individually or run a benchmark for all 6 and the original unoptimized list. The results are formatted in a table and displayed in the console. As the algorithms have different time complexities, the time it takes increases for some algorithms drastically, so use caution when using many places. 
 
 ## What are some TSP heuristic algorithms?
-The Traveling Salesman Problem finds the shortest path to tour a group of destinations. This is the same as finding the shortest Hamiltonian cycle in a graph that has O(n!) complexity. This is not feasible for large values of n. For example, a tour with 99 destinations has around 9e+155 or 2^519 possible solutions if you explore the entire solution space to find the optimal solution. In this class, we will solve much larger problems.
+The Traveling Salesman Problem finds the shortest path to tour a group of destinations. This is the same as finding the shortest Hamiltonian cycle in a graph that has O(n!) complexity. This is not feasible for large values of n. For example, a tour with 99 destinations has around 9e+155 or 2^519 possible solutions if you explore the entire solution space to find the optimal solution.
 
 Heuristic algorithms allow us to find solutions that are near the optimal solution quickly. This optimization is typically done in two phases: construction and improvement.
 
@@ -19,7 +19,7 @@ nearestNeighborWithOptimization(cities) {
 ```
 
 The 2-opt or 3-opt algorithms can often improve the greedy solution created by the nearest neighbor algorithms. They can also be used by themselves.
-- 2-opt is an improvement algorithm the reverses segments within a solution to reduce the total distance traveled until no further improvements can be made. The 2-opt algorithm reduces the total distance traveled by reversing segments within the solution until no further improvements can be made. The algorithm evaluates all of the possible reversals for improvement and restarts each time an improvement is made. This makes the algorithm slightly more than O(n^3). Here is a psuedocode for 2Opt:
+- 2-opt is an improvement algorithm the reverses segments within a solution to reduce the total distance traveled until no further improvements can be made. The algorithm evaluates all of the possible reversals for improvement and restarts each time an improvement is made. This makes the algorithm slightly more than O(n^3). Here is a psuedocode for 2Opt:
 ```
 2opt(route) {
   improvement = true
